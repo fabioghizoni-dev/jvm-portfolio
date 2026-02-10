@@ -1,4 +1,4 @@
-import { useRef, type ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef } from "react";
 import styled from "styled-components";
 import { theme } from "../../../infrastructure/theme";
 
@@ -17,16 +17,19 @@ export const TitlePrimary = styled.h1`
   margin-top: 2rem;
   font-size: 2.5rem;
   text-align: center;
+  width: fit-content;
   margin-bottom: 3rem;
+  align-self: center;
   
   display: inline-block;
 
-  background: linear-gradient(to right, oklch(0.4775 0.2082 22.24), ${theme.colors.red}),
-    radial-gradient(circle at var(--x) var(--y), oklch(1 0 0 / var(--opacity)), ${theme.colors.red});
+  background: radial-gradient(circle at var(--x) var(--y), oklch(57.7% 0.245 27.325 / var(--opacity)), ${theme.colors.red}),
+    linear-gradient(to right, oklch(0.4775 0.2082 22.24), ${theme.colors.red});
 
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
+  transition: background .5s linear;
   -webkit-text-fill-color: transparent;
 `;
 
@@ -52,11 +55,8 @@ export const HeroTitle = ({
   children = "Portfólio em parceria com",
   ...rest
 }: HeroTitleProps) => {
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
   const handleMouseMove = (e: React.MouseEvent<HTMLHeadingElement>) => {
-    const el = titleRef.current;
-    if (!el) return;
-
+    const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
 
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -64,17 +64,15 @@ export const HeroTitle = ({
 
     el.style.setProperty("--x", `${x}%`);
     el.style.setProperty("--y", `${y}%`);
-    el.style.setProperty("--opacity", ".5");
+    el.style.setProperty("--opacity", "1");
   };
 
-  const handleMouseLeave = () => {
-    const el = titleRef.current;
-    if (!el) return;
-
+  const handleMouseLeave = (e: React.MouseEvent<HTMLHeadingElement>) => {
+    const el = e.currentTarget;
     el.style.setProperty("--opacity", "0");
   };
   if (variant === "primary") return (
-    <TitlePrimary {...rest} ref={titleRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>{children}</TitlePrimary>
+    <TitlePrimary {...rest} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>{children}</TitlePrimary>
   );
   return (
     <Title {...rest}>

@@ -9,10 +9,10 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: center;
   justify-content: space-between;
-  padding-inline: calc((100% - 64rem) / 2);
+  padding-inline: calc((100% - ${theme.spacing.lg}) / 2);
   border-bottom: 0.063rem solid ${theme.colors.gray};
   
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     gap: 1rem;
     padding: .5rem;
   }
@@ -23,7 +23,7 @@ export const Logo = styled.img.attrs({
 })`
   height: 2.8rem;
   
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     height: 2rem;
   }
 `;
@@ -33,24 +33,25 @@ export const JvmLogo = styled.img.attrs({
 })`
   height: 3rem;
 
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
+    width: 15rem;
     height: 2.4rem;
   }
 `;
 
 export const SubHeader = styled.div`
   gap: 2rem;
-  width: 100%;
+  width: ${theme.spacing.full};
   display: flex;
-  max-width: 64rem;
+  max-width: ${theme.spacing.lg};
   font-weight: 400;
   font-size: 1.1rem;
   align-self: center;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     gap: 1rem; 
-    font-size: 0.9rem;
+    font-size: .9rem;
   }
 `;
 
@@ -110,32 +111,32 @@ export const Menu = styled.button<{ $open?: boolean }>`
     left: 8px;
     right: 8px;
     top: 50%;
-    height: 2px;
+    height: ${theme.spacing[2]};
     background-color: ${({ $open }) =>
     $open ? "transparent" : "white"};
-    border-radius: 2px;
+    border-radius: ${theme.spacing[2]};
     transform: translateY(-50%);
-    transition: background 0.2s ease;
+    transition: background .2s ease;
     box-shadow: ${({ $open }) =>
     $open
       ? "none"
-      : "0 -8px 0 white, 0 8px 0 white"};
+      : `0 -${theme.spacing[8]} 0 white, 0 ${theme.spacing[8]} 0 white`};
   }
 
   &::after {
     content: "";
     position: absolute;
-    left: 8px;
-    right: 8px;
-    top: 50%;
-    height: 2px;
+    left: ${theme.spacing[8]};
+    right: ${theme.spacing[8]};
+    top: ${theme.spacing["1/2"]};
+    height: ${theme.spacing[2]};
     background-color: white;
-    border-radius: 2px;
+    border-radius: ${theme.spacing[2]};
     transform: ${({ $open }) =>
     $open
-      ? "translateY(-50%) rotate(45deg)"
-      : "translateY(-50%) translateY(-8px)"};
-    transition: transform 0.25s ease;
+      ? `translateY(-${theme.spacing["1/2"]}) rotate(45deg)`
+      : `translateY(-${theme.spacing["1/2"]}) translateY(-${theme.spacing[8]})`};
+    transition: transform .25s ease;
   }
 `;
 

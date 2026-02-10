@@ -14,5 +14,5 @@ export const AppRouter = () => {
         <Route path="/contact" element={<ContactMe />} />
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};

@@ -1,18 +1,34 @@
-import { useCallback, useRef, useState } from "react";
+import { type RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { checkSelfCollision, checkWallCollision } from "../engine/checkCollision";
-import { INITIAL_DIRECTION, INITIAL_SNAKE, INITIAL_SPEED } from "../engine/constants";
+import { INITIAL_DIRECTION, INITIAL_SPEED } from "../engine/constants";
 import { generateFood } from "../engine/generateFood";
 import { moveSnake } from "../engine/moveSnake";
 import type { Point } from "../engine/types";
 import { useGameLoop } from "./useGameLoop";
 import { useGridSize } from "./useGridSize";
 import { useKeyboard } from "./useKeyboard";
+import { useTouch } from "./useTouch";
 
-export const useSnakeGame = () => {
+export const useSnakeGame = (boardRef: RefObject<HTMLDivElement | null>) => {
   const gridSize = useGridSize();
 
-  const [snake, setSnake] = useState<Point[]>(INITIAL_SNAKE);
+  // Calcular posição inicial da cobra baseada no tamanho do grid
+  const initialSnake = useMemo(() => {
+    const centerX = Math.floor(gridSize.cols / 2);
+    const centerY = Math.floor(gridSize.rows / 2);
+    return [{ x: centerX, y: centerY }];
+  }, [gridSize]);
+
+  const [snake, setSnake] = useState<Point[]>(initialSnake);
   const [food, setFood] = useState<Point>({ x: 5, y: 5 });
+
+  // Atualizar posição inicial quando o grid mudar (mudança de responsividade)
+  useEffect(() => {
+    if (gridSize.cols > 0 && gridSize.rows > 0) {
+      setSnake(initialSnake);
+      setFood(generateFood(initialSnake, gridSize.cols, gridSize.rows));
+    }
+  }, [gridSize, initialSnake]);
   const [direction, setDirection] = useState<Point>(INITIAL_DIRECTION);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
@@ -52,20 +68,26 @@ export const useSnakeGame = () => {
     onDirectionChange: handleDirectionChange,
   });
 
+  useTouch({
+    ref: boardRef,
+    disabled: gameOver,
+    onDirectionChange: handleDirectionChange,
+  });
+
   const tick = useCallback(() => {
+    let nextDir = direction;
+
     // Process next move from queue if available
     if (directionQueue.current.length > 0) {
       const queued = directionQueue.current.shift();
       if (queued) {
+        nextDir = queued;
         setDirection(queued);
-        // We use nextDir immediately for the move calculation below
-        // causing a slight sync issue if we just set state.
-        // Better to use a local variable for calculation.
       }
     }
 
     setSnake(prev => {
-      const nextSnake = moveSnake(prev, direction);
+      const nextSnake = moveSnake(prev, nextDir);
       const head = nextSnake[0];
 
       if (
@@ -89,8 +111,8 @@ export const useSnakeGame = () => {
 
   useGameLoop(tick, INITIAL_SPEED, gameOver || isPaused || !hasStarted);
 
-const resetGame = useCallback(() => {
-    setSnake(INITIAL_SNAKE);
+  const resetGame = useCallback(() => {
+    setSnake(initialSnake);
     setDirection(INITIAL_DIRECTION);
     directionQueue.current = []; // Clear queue
     setScore(0);
@@ -103,8 +125,8 @@ const resetGame = useCallback(() => {
     // If we want it on every death, set false.
     // Let's keep it true (instant restart) for better UX on retry,
     // unless user explicitly wants to go back to title.
-    setFood(generateFood(INITIAL_SNAKE, gridSize.cols, gridSize.rows));
-  }, [gridSize]);
+    setFood(generateFood(initialSnake, gridSize.cols, gridSize.rows));
+  }, [gridSize, initialSnake]);
 
   const startGame = useCallback(() => {
     setHasStarted(true);
@@ -113,14 +135,14 @@ const resetGame = useCallback(() => {
   }, []);
 
   return {
-    gridSize,
-    snake,
     food,
     score,
+    snake,
+    gridSize,
     gameOver,
     isPaused,
-    hasStarted,
     resetGame,
     startGame,
+    hasStarted,
   };
 };

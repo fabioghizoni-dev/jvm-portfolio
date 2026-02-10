@@ -1,12 +1,12 @@
 import { Icon } from "@iconify/react";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useRef } from "react";
 import { useSnakeGame } from "./hooks/useSnakeGame";
 import * as S from "./styles";
 
-const SnakeSegment = memo(({ segment, index, gridSize }: { 
-  segment: { x: number; y: number }; 
-  index: number; 
-  gridSize: { cols: number; rows: number } 
+const SnakeSegment = memo(({ segment, index, gridSize }: {
+  segment: { x: number; y: number };
+  index: number;
+  gridSize: { cols: number; rows: number }
 }) => {
   const isHead = index === 0;
   return (
@@ -23,9 +23,9 @@ const SnakeSegment = memo(({ segment, index, gridSize }: {
 
 SnakeSegment.displayName = 'SnakeSegment';
 
-const FoodComponent = memo(({ food, gridSize }: { 
-  food: { x: number; y: number }; 
-  gridSize: { cols: number; rows: number } 
+const FoodComponent = memo(({ food, gridSize }: {
+  food: { x: number; y: number };
+  gridSize: { cols: number; rows: number }
 }) => {
   return (
     <S.Food
@@ -40,6 +40,7 @@ const FoodComponent = memo(({ food, gridSize }: {
 FoodComponent.displayName = 'FoodComponent';
 
 export const SnakeGame = () => {
+  const boardRef = useRef<HTMLDivElement>(null);
   const {
     score,
     snake,
@@ -49,9 +50,9 @@ export const SnakeGame = () => {
     hasStarted,
     startGame,
     resetGame,
-  } = useSnakeGame();
+  } = useSnakeGame(boardRef);
 
-const snakeSegments = useMemo(() => {
+  const snakeSegments = useMemo(() => {
     return snake.map((segment, index) => (
       <SnakeSegment
         key={index}
@@ -72,7 +73,7 @@ const snakeSegments = useMemo(() => {
   return (
     <S.GameContainer>
       <S.Score>Pontos: <S.Value>{score}</S.Value></S.Score>
-      <S.Board $cols={gridSize.cols} $rows={gridSize.rows}>
+      <S.Board ref={boardRef} $cols={gridSize.cols} $rows={gridSize.rows}>
         {snakeSegments}
         {foodComponent}
 

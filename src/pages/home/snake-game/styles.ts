@@ -17,6 +17,18 @@ export const GameContainer = styled.div`
   backdrop-filter: blur(.625rem);
   border: 1px solid oklch(1 0 0 / 10%);
   box-shadow: 0 .25rem .375rem oklch(0 0 0 / 10%);
+
+  @media (max-width: 768px) {
+    padding: 0.25rem;
+    margin-top: -5px;
+    max-width: 95%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.125rem;
+    max-width: 98%;
+    margin-top: 0;
+  }
 `;
 
 export const Score = styled.div`
@@ -26,6 +38,11 @@ export const Score = styled.div`
   font-weight: bold;
   margin-bottom: .5rem;
   color: oklch(1 0 0 / 60%);
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+  }
 `;
 
 export const Value = styled.span`
@@ -43,6 +60,17 @@ export const Board = styled.div<{ $cols: number; $rows: number }>`
   background-color: oklch(0.1684 0 0);
   border: 2px solid oklch(0.3211 0 0);
   overflow: hidden; /* Ensure snake doesn't overflow visually if something bugs out */
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    border-radius: 0.5rem;
+    border-width: 1px;
+  }
+
+  @media (max-width: 480px) {
+    border-width: 1px;
+    touch-action: none; /* Melhora a experiência de toque */
+  }
 `;
 
 interface PositionProps {
@@ -133,4 +161,8 @@ export const Text = styled.h2`
   margin: .5rem 0;
   font-size: 1.4rem;
   text-align: center;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;

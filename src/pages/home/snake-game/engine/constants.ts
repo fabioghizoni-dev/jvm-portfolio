@@ -1,6 +1,6 @@
 import type { Point } from "./types";
 
-export const INITIAL_SPEED = 100;
+export const INITIAL_SPEED = 90;
 
 export const INITIAL_SNAKE: Point[] = [{ x: 10, y: 10 }];
 

@@ -1,6 +1,14 @@
+export const utils = {
+  maxWidth: "max-width: ",
+}
+
 export const spacing = {
+  8: ".5rem",
+  md: "48rem",
   lg: "64rem",
+  "1/2": "50%",
   full: "100%",
+  2: ".125rem",
   icon: "1.4rem",
   300: "18.75rem",
   fullDvh: "100dvh",
@@ -22,6 +30,7 @@ export const translate = {
 }
 
 export const theme = {
+  utils,
   colors,
   spacing,
   translate,

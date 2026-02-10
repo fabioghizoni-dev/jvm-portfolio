@@ -1,8 +1,8 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { createGlobalStyle } from 'styled-components'
-import { theme } from './infrastructure/theme/index.ts'
-import { AppRouter } from './router/index.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createGlobalStyle } from "styled-components";
+import { theme } from "./infrastructure/theme/index.ts";
+import { AppRouter } from "./router/index.tsx";
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -19,7 +19,7 @@ const GlobalStyles = createGlobalStyle`
   body, input, button, textarea {
     margin: 0;
     letter-spacing: -0.07em;
-    font-family: Goldman, 'Courier New', Courier, monospace;
+    font-family: Goldman, "Courier New", Courier, monospace;
   }
 
   #app {
@@ -27,14 +27,15 @@ const GlobalStyles = createGlobalStyle`
     min-height: ${theme.spacing.fullDvh};
     background-size: cover;
     flex-direction: column;
+    overflow: hidden;
     background-color: ${theme.colors.bgDark};
     background-image: url(/bg.png);
   }
-`
+`;
 
-createRoot(document.getElementById('app')!).render(
+createRoot(document.getElementById("app")!).render(
   <StrictMode>
     <GlobalStyles />
     <AppRouter />
   </StrictMode>
-)
+);
