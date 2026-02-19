@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { theme } from "../infrastructure/theme";
 
-export const HeaderContainer = styled.header`
+export const Header = styled.header`
   gap: 4rem;
   display: flex;
   padding: .875rem;
   align-items: center;
-  justify-content: center;
   justify-content: space-between;
   padding-inline: calc((100% - ${theme.spacing.lg}) / 2);
   border-bottom: 0.063rem solid ${theme.colors.gray};
@@ -24,7 +23,7 @@ export const Logo = styled.img.attrs({
   height: 2.8rem;
   
   @media (${theme.utils.maxWidth + theme.spacing.md}) {
-    height: 2rem;
+    display: none;
   }
 `;
 
@@ -58,26 +57,24 @@ export const SubHeader = styled.div`
 export const subHeaderBaseStyles = css<{ $active?: boolean }>`
   z-index: 0;
   color: white;
+  border: none;
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  height: fit-content;
   white-space: nowrap;
   min-width: fit-content;
-  padding: 0.5rem 1.25rem;
-  background-color: ${({ $active }) => $active ? theme.colors.red : "oklch(1 0 0 / 8%)"};
-  border-radius: 0 0 0.625rem 0.625rem;
-  transition: color 0.2s ease-in-out;
+  transition: color .2s ease-in-out;
 
   &::before {
     inset: 0;
-    content: "";
+    ${theme.utils.content}
     z-index: -1;
     position: absolute;
     transform: scale(0);
     border-radius: inherit;
-    transform-origin: left top;
     background-color: ${theme.colors.red};
-    transition: transform 0.3s ease-in-out;
+    transition: transform .3s ease-in-out;
   }
 
   ${({ $active }) =>
@@ -95,27 +92,38 @@ export const subHeaderBaseStyles = css<{ $active?: boolean }>`
 
 
 export const SubHeaderButton = styled.button <{ $active?: boolean }>`
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${theme.spacing[45]};
   ${subHeaderBaseStyles}
+  background: transparent;
+  border-radius: ${theme.spacing[4]};
+
+  &::before {
+    transform-origin: right top;
+  }
 `;
 
 export const Menu = styled.button<{ $open?: boolean }>`
-  width: 40px;
-  height: 40px;
-  background: transparent;
+  width: ${theme.spacing[40]};
+  height: ${theme.spacing[35]};
   border: none;
   position: relative;
+  background: transparent;
+  transform: translateY(-1px);
 
   &::before {
-    content: "";
+    ${theme.utils.content}
     position: absolute;
-    left: 8px;
-    right: 8px;
-    top: 50%;
+    left: ${theme.spacing[8]};
+    right: ${theme.spacing[8]};
+    top: ${theme.spacing["1/2"]};
     height: ${theme.spacing[2]};
-    background-color: ${({ $open }) =>
-    $open ? "transparent" : "white"};
+    background-color: white;
     border-radius: ${theme.spacing[2]};
-    transform: translateY(-50%);
+    transform: ${({ $open }) => $open ? `translateY(-${theme.spacing["1/2"]}) rotate(-45deg)` : `translateY(-${theme.spacing["1/2"]})`};
     transition: background .2s ease;
     box-shadow: ${({ $open }) =>
     $open
@@ -124,7 +132,7 @@ export const Menu = styled.button<{ $open?: boolean }>`
   }
 
   &::after {
-    content: "";
+    ${theme.utils.content}
     position: absolute;
     left: ${theme.spacing[8]};
     right: ${theme.spacing[8]};
@@ -140,6 +148,26 @@ export const Menu = styled.button<{ $open?: boolean }>`
   }
 `;
 
+export const MenuOpen = styled.ul<{ $open?: boolean }>`
+  display: ${({ $open }) => $open ? "flex" : "none"};
+  position: absolute;
+  flex-direction: column;
+  inset: 0;
+  z-index: 50;
+  width: ${theme.spacing.full};
+  height: ${theme.spacing.fullDvh};
+  overflow: hidden;
+  background-color: black;
+`;
+
 export const SubHeaderLink = styled(Link) <{ $active?: boolean }>`
+  width: fit-content;
   ${subHeaderBaseStyles}
+  padding: 0.5rem 1.25rem;
+  border-radius: 0 0 0.625rem 0.625rem;
+  background-color: ${({ $active }) => $active ? theme.colors.red : "oklch(1 0 0 / 8%)"};
+
+  &::before {
+    transform-origin: left top;
+  }
 `;

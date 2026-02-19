@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "../infrastructure/utils";
 import * as S from "./styles";
@@ -6,6 +7,8 @@ import * as S from "./styles";
 export const Header = () => {
   const location = useLocation();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const toggleMenu = () => setMenuOpen(prev => !prev);
 
   const SubHeaderContent = () => {
     return (
@@ -20,17 +23,12 @@ export const Header = () => {
 
   return (
     <>
-      <S.HeaderContainer>
+      <S.Header>
         <S.Logo src="/logo.svg" />
         <S.JvmLogo src="/jvm_logo.svg" />
-      </S.HeaderContainer>
-      {isMobile ?
-        <S.SubHeaderButton $active={location.pathname === '/about-me'} ><S.Menu /></S.SubHeaderButton>
-        :
-        <S.SubHeader>
-          <SubHeaderContent />
-        </S.SubHeader>
-      }
+        {isMobile && <S.SubHeaderButton onClick={toggleMenu}><S.Menu $open={menuOpen} /></S.SubHeaderButton>}
+      </S.Header>
+      {!isMobile ? <S.SubHeader><SubHeaderContent /></S.SubHeader> : <S.MenuOpen />}
     </>
   );
 };

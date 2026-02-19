@@ -1,4 +1,5 @@
 export const utils = {
+  content: "content: '';",
   maxWidth: "max-width: ",
 }
 
@@ -6,9 +7,14 @@ export const spacing = {
   8: ".5rem",
   md: "48rem",
   lg: "64rem",
+  4: "0.25rem",
+  40: "2.5rem",
   "1/2": "50%",
+  "4/5": "80%",
   full: "100%",
   2: ".125rem",
+  35: "2.188rem",
+  45: "2.813rem",
   icon: "1.4rem",
   300: "18.75rem",
   fullDvh: "100dvh",

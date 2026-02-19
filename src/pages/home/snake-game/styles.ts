@@ -18,7 +18,7 @@ export const GameContainer = styled.div`
   border: 1px solid oklch(1 0 0 / 10%);
   box-shadow: 0 .25rem .375rem oklch(0 0 0 / 10%);
 
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     padding: 0.25rem;
     margin-top: -5px;
     max-width: 95%;
@@ -39,7 +39,7 @@ export const Score = styled.div`
   margin-bottom: .5rem;
   color: oklch(1 0 0 / 60%);
 
-  @media (max-width: 768px) {
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     font-size: 1.2rem;
     margin-bottom: 0.25rem;
   }
@@ -61,10 +61,9 @@ export const Board = styled.div<{ $cols: number; $rows: number }>`
   border: 2px solid oklch(0.3211 0 0);
   overflow: hidden; /* Ensure snake doesn't overflow visually if something bugs out */
 
-  @media (max-width: 768px) {
-    max-width: 100%;
-    border-radius: 0.5rem;
+  @media (${theme.utils.maxWidth + theme.spacing.md}) {
     border-width: 1px;
+    border-radius: 0.5rem;
   }
 
   @media (max-width: 480px) {
@@ -161,8 +160,4 @@ export const Text = styled.h2`
   margin: .5rem 0;
   font-size: 1.4rem;
   text-align: center;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;

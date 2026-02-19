@@ -1,6 +1,6 @@
 const https = "https://";
 const gitHubRaw = "github.com/fabioghizoni-dev";
-const linkedinRaw = "www.linkedin.com/in/fábioghizoni";
+const linkedinRaw = "linkedin.com/in/fábioghizoni";
 const portfolioRaw = "portfolio-fabio-main.vercel.app";
 
 export const personal = {
@@ -11,4 +11,4 @@ export const personal = {
     jvm: "",
     portfolio: { raw: portfolioRaw, url: `${https}${portfolioRaw}` },
   }
-}
+};

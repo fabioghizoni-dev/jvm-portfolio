@@ -11,7 +11,7 @@ export const Section = styled.section`
   background: oklch(1 0 0 / 5%);
   border: 1px solid oklch(1 0 0 / 10%);
 
-  transition: all 0.2s ease-in-out;
+  transition: all .2s ease-in-out;
   &:hover {
     transform: translateY(-5px);
     border-color: ${theme.colors.red};

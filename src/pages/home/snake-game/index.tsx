@@ -1,5 +1,7 @@
 import { Icon } from "@iconify/react";
 import { memo, useMemo, useRef } from "react";
+import { theme } from "../../../infrastructure/theme";
+import { useMediaQuery } from "../../../infrastructure/utils";
 import { useSnakeGame } from "./hooks/useSnakeGame";
 import * as S from "./styles";
 
@@ -40,6 +42,7 @@ const FoodComponent = memo(({ food, gridSize }: {
 FoodComponent.displayName = 'FoodComponent';
 
 export const SnakeGame = () => {
+  const isMobile = useMediaQuery(`(${theme.utils.maxWidth + theme.spacing.md})`);
   const boardRef = useRef<HTMLDivElement>(null);
   const {
     score,
@@ -92,7 +95,7 @@ export const SnakeGame = () => {
           </S.GameOverOverlay>
         )}
       </S.Board>
-      <S.Text>Use as setas para mover, espaço para pausar</S.Text>
+      <S.Text>{isMobile ? "Use o touch para mover" : "Use as setas para mover, espaço para pausar"}</S.Text>
     </S.GameContainer>
   );
 };
