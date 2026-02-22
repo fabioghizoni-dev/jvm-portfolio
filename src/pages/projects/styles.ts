@@ -20,9 +20,9 @@ export const ExternalLink = styled(Icon)`
   min-inline-size: ${theme.spacing.icon};
 `;
 
-export const ProjectCard = styled.a.attrs({
-  target: "_blank"
-})`
+export const ProjectCard = styled.a.attrs(props => ({
+  target: props.target || "_blank"
+}))`
   display: flex;
   padding: 1.5rem;
   position: relative;
